@@ -17,6 +17,7 @@ defmodule Plug.BuilderTest do
 
     plug :fun, parent: builder_opts()
     plug Module, :opts
+    plug Module, %{opts: builder_opts()}
 
     def fun(conn, opts) do
       stack = [{:fun, opts} | conn.assigns[:stack]]
