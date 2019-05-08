@@ -17,7 +17,7 @@ defmodule Plug.BuilderTest do
 
     plug :fun, parent: builder_opts()
     plug Module, :opts
-    plug Module, %{opts: builder_opts()}
+    plug Module, %{opt: "test"}
 
     def fun(conn, opts) do
       stack = [{:fun, opts} | conn.assigns[:stack]]
@@ -92,11 +92,13 @@ defmodule Plug.BuilderTest do
     conn = assign(conn(:get, "/"), :stack, [])
 
     assert Sample.call(conn, []).assigns[:stack] == [
+             call: {:init, %{opt: "test"}},
              call: {:init, :opts},
              fun: [parent: []]
            ]
 
     assert Sample.call(conn, :parent).assigns[:stack] == [
+             call: {:init, %{opt: "test"}},
              call: {:init, :opts},
              fun: [parent: :parent]
            ]
